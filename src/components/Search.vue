@@ -60,7 +60,7 @@
             };
         },
         created() {
-              axios.get(`http://165.227.97.103/api/search`)
+              axios.get(`api/search`)
                   .then(response => {
                     this.items = response.data
                 });
