@@ -39,7 +39,9 @@
       <router-view/>
     </v-content>
     <v-footer :fixed="fixed" app dark color="primary">
-      <span >&copy; 2018 - University Rides</span>
+      <v-card class="justify-center">
+        <span >&copy; 2018 - University Rides</span>
+      </v-flex>
     </v-footer>
   </v-app>
 </template>
