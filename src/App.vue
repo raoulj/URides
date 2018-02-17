@@ -39,7 +39,7 @@
       <router-view/>
     </v-content>
     <v-footer :fixed="fixed" app dark color="primary">
-      <v-card class="justify-center">
+      <v-flex class="justify-center">
         <span >&copy; 2018 - University Rides</span>
       </v-flex>
     </v-footer>
