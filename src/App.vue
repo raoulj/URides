@@ -9,18 +9,34 @@
       fixed
       app
     >
-      <v-list>
+    <v-toolbar flat class="transparent">
+        <v-list class="pa-0">
+          <v-list-tile avatar>
+            <v-list-tile-avatar :size="50" class="pl-5">
+              <img src="static/logo.png">
+            </v-list-tile-avatar>
+          </v-list-tile>
+        </v-list>
+      </v-toolbar>
+      <v-list class="pt-0" dense>
+        <v-divider></v-divider>
         <v-list-tile
           value="true"
+          disabled
           v-for="(item, i) in items"
           :key="i"
         >
           <v-list-tile-action>
             <v-icon>{{item.icon}}</v-icon>
-          </v-list-tile-action>
+          </v-list-tile-action >
           <v-list-tile-content>
             <v-list-tile-title v-text="item.title"></v-list-tile-title>
           </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+      <v-list>
+        <v-list-tile class="xs-center">
+          <v-avatar :size="120" :tile="true"></v-avatar>
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
@@ -33,6 +49,7 @@
     >
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title v-text="title"></v-toolbar-title>
+
       <v-spacer></v-spacer>
     </v-toolbar>
     <v-content>
