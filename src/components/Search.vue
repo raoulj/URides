@@ -8,14 +8,13 @@
         </v-container>
         <v-container>
           <v-data-table
-              v-bind:headers="headers"
+              :headers="headers"
               :items="items"
               :loading="false"
               class="elevation-1"
               full-width
             >
               <template slot="items" slot-scope="props">
-                <td>{{ props.item.id }}</td>
                 <td class="text-xs-right">{{ props.item.fname }}</td>
                 <td class="text-xs-right">{{ props.item.lname }}</td>
                 <td class="text-xs-right">{{ props.item.start }}</td>
@@ -46,8 +45,8 @@
         data() {
             return {
                 items: [],
+                query: '',
                 headers: [
-                  { text: 'ID', align: 'left', value: 'id' },
                   { text: 'First Name', value: 'fname' },
                   { text: 'Last Name', value: 'lname' },
                   { text: 'Origin', value: 'origin' },

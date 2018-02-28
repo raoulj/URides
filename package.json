@@ -18,10 +18,13 @@
     "elasticlunr": "^0.9.5",
     "express": "^4.16.2",
     "jsonfile": "^4.0.0",
+    "moment": "^2.20.1",
+    "mongodb": "^3.0.2",
     "mongoose": "^5.0.6",
     "morgan": "^1.9.0",
     "path": "^0.12.7",
     "vue": "^2.5.2",
+    "vue-cookie": "^1.1.4",
     "vue-router": "^3.0.1",
     "vuetify": "^1.0.0"
   },

@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
+import VueCookie from 'vue-cookie'
 
 Vue.use(Vuetify, { theme: {
   primary: '#9C27B0',
@@ -15,6 +16,8 @@ Vue.use(Vuetify, { theme: {
   success: '#4CAF50',
   warning: '#FFC107'
 }})
+
+Vue.use(VueCookie)
 
 Vue.config.productionTip = false
 
