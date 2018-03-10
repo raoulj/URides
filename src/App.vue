@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <v-navigation-drawer
+      temporary
       persistent
       :mini-variant="miniVariant"
       :clipped="clipped"
@@ -49,20 +50,21 @@
       :clipped-left="clipped"
     >
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title v-text="title"></v-toolbar-title>
-            <v-spacer></v-spacer>
-      <v-avatar tile>
+
+      <v-toolbar-title>{{title}}</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-avatar to="Search" tile>
         <img src="static/logo-inverted.png">
       </v-avatar>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down">
         <v-btn v-if="!isLoggedIn" flat :to="{name:'Register'}">Register</v-btn>
         <v-btn v-if="!isLoggedIn" flat :to="{name:'Login'}">Login</v-btn>
-       <h4 class="mt-4 pr-5 h1"v-else>Hello, {{fname}}!</h4>
+       <h4 class="mt-4 pr-5 h1" v-else>Hello, {{fname}}!</h4>
       </v-toolbar-items>
     </v-toolbar>
     <v-content>
-      <router-view/>
+      <router-view :isFirstView="newVisitor"></router-view>
     </v-content>
     <v-footer :fixed="fixed" app dark color="primary">
         <span >&copy; 2018 - University Rides</span>
@@ -71,6 +73,9 @@
 </template>
 
 <script>
+
+import FirstVisitModal from './components/FirstVisitModal.vue'
+
 export default {
   data () {
     return {
@@ -78,7 +83,7 @@ export default {
       drawer: false,
       fixed: false,
       items: [
-        { icon: 'home', title: 'Search All Trips', component: 'Search', login_required: false },
+        { icon: 'home', title: 'Home', component: 'Search', login_required: false },
         { icon: 'description', title: 'About', component: 'About', login_required: false },
         { icon: 'phone', title: 'Contact Us', component: 'Contact', login_required: false },
         { icon: 'note_add', title: 'Create', component: 'Create', login_required: true },
@@ -90,12 +95,24 @@ export default {
       title: 'UniversityRides',
       email: '',
       fname: '',
-      isLoggedIn: ''
+      isLoggedIn: '',
+      newVisitor: false
     }
   },
   mounted() {
+    var temp = this.$cookie.get('newVisitor')
+    if (temp === undefined || temp === null) {
+      this.newVisitor = true
+      this.$cookie.set('newVisitor', true)
+    } else {
+      this.newVisitor = false
+    }
+
     this.email = this.$cookie.get('user')
     this.fname = this.$cookie.get('fname')
+  },
+  components: {
+    'modal-first-visit': FirstVisitModal
   },
   watch: {
     email: function(val) {
@@ -115,9 +132,3 @@ export default {
   name: 'App'
 }
 </script>
-<!-- TODO: figure out how to invert logout button color -->
-<style scoped>
-  .exit_to_app {
-    color: "blue";
-  }
-</style>

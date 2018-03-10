@@ -9,10 +9,10 @@
           <v-container grid-list-md>
             <v-layout wrap>
               <v-flex xs12>
-                <v-text-field v-model="email" label="Email" :rules="[rules.required, rules.email]"></v-text-field>
+                <v-text-field v-model="email" label="Email" @input="clearError" :error-messages="errorMessage" :rules="[rules.required, rules.email]"></v-text-field>
               </v-flex>
               <v-flex xs12>
-                <v-text-field v-model="password" label="Password" type="password" :rules="[rules.required]"></v-text-field>
+                <v-text-field v-model="password" label="Password" type="password" @input="clearError" :error-messages="errorMessage" :rules="[rules.required]"></v-text-field>
               </v-flex>
             </v-layout>
           </v-container>
@@ -47,6 +47,7 @@
         dialog: false,
         email: '',
         password: '',
+        errorMessage: [],
         rules: {
           required: (value) => !!value || 'Required.',
           email: (value) => {
@@ -64,7 +65,7 @@
             console.log(response.data)
             if(response.data.error !== undefined) {
               //failed login
-              alert(response.data.error)
+              this.errorMessage = "Email/password combination does not match any accounts, please try again."
             } else {
               // suceeded login
               this.$cookie.set('user', response.data.email, 1);
@@ -75,6 +76,9 @@
             this.user = response.user
           });
         }
+      },
+      clearError() {
+        this.errorMessage = []
       }
   }
 }

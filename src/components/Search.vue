@@ -2,8 +2,9 @@
   <v-container fluid>
     <v-slide-y-transition mode="out-in">
       <v-layout column align-center>
+        <first-visit v-if="isFirstView && ! hideFirstView" @close="closeFirstVisit"></first-visit>
         <v-container>
-          <v-flex><h2>Search for a Ride</h2></v-flex>
+          <v-flex><h2>Search Previous Rides</h2></v-flex>
           <v-flex><v-text-field append-icon="search" solo @input="function (value){fetchDataFromApi(value)}"></v-text-field></v-flex>
         </v-container>
         <v-container>
@@ -39,6 +40,7 @@
 </template>
 
 <script>
+    import FirstVisit from './FirstVisit.vue'
     import axios from 'axios'
 
     export default {
@@ -56,14 +58,21 @@
                   { text: 'Has Guests?', value: 'hasGuests' },
                   { text: 'Number of Guests', value: 'guestsTotal' }
                 ],
+                hideFirstView: false
             };
         },
+        props: [
+          'isFirstView'
+        ],
         created() {
-              axios.get(`api/search`)
-                  .then(response => {
-                    this.items = response.data
-                });
-            },
+          axios.get(`api/search`)
+              .then(response => {
+                this.items = response.data
+            });
+        },
+        components: {
+          'first-visit': FirstVisit,
+        },
         methods: {
             fetchDataFromApi(query) {
               this.query = query
@@ -72,6 +81,9 @@
                     this.items = response.data
                 });
             },
+            closeFirstVisit() {
+              this.hideFirstView = true
+            }
         },
     };
 </script>

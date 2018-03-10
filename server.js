@@ -94,10 +94,15 @@ app.post('/api/login', (req, res) => {
 			}
 			res.send(response)
 		} else if (result.length > 1) {
-			var response = { error: `Your account ${email} has been corrupted.`}
+			// There are more than one accounts for the same email
+			var response = { 
+				error: `Your account ${email} has been corrupted.`
+			}
 			res.send(response)
 		} else {
-			var response = { error: `Credentials incorrect, please try again.`}
+			var response = { 
+				error: `Credentials incorrect, please try again.`
+			}
 			res.send(response)
 		}
 	})
@@ -130,19 +135,27 @@ app.post('/api/register', (req, res) => {
 				res.send(response)
 			})
 		} else {
-			var response = { error: 'Account with email already exists.'}
+			var response = { 
+				error: 'An account already exists with this email.',
+				field: 'email'
+			}
 			res.send(response)
 		}
 	})
 	console.log('new account created')
 })
 
-
+// there is
 app.post('/api/create-ride', (req, res) => {
 	// Get the first and last name for the table
 	db.collection('users').findOne({
 		email: req.query.email
 	}, (err, result) => {
+		if (err) {
+			console.log('error!')
+			console.log(err)
+			return
+		}
 		var fname = result.fname
 		var lname = result.lname
 

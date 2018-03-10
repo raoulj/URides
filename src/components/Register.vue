@@ -3,7 +3,7 @@
     <v-form v-model="valid" ref="form" lazy-validation>
       <v-card width="500px">
         <v-card-title>
-          <span class="headline">User Profile</span>
+          <span class="headline">New User Profile</span>
         </v-card-title>
         <v-card-text>
           <v-container grid-list-md>
@@ -12,7 +12,7 @@
               &nbsp;
               <v-text-field v-model="lname" label="Last Name" required :rules="[rules.required]"></v-text-field>
               <v-flex xs12>
-                <v-text-field v-model="email" label="Email" required :rules="[rules.required, rules.email]"></v-text-field>
+                <v-text-field v-model="email" label="Email" required @input="clearEmailError" :error-messages="responseMessages" :rules="[rules.required, rules.email]"></v-text-field>
               </v-flex>
               <v-flex xs12>
                 <v-text-field v-model="password" label="Password" type="password" required :rules="[rules.required]"></v-text-field>
@@ -40,7 +40,7 @@
       fname: '',
       lname: '',
       isUnique: true,
-      responseMessage: '',
+      responseMessages: [],
       rules: {
         required: (value) => !!value || 'Required.',
         email: (value) => {
@@ -51,9 +51,6 @@
           const pattern = new RegExp("^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8}$");
           return pattern.test(value) || 'Weak ass password'
         },
-        uniqueinbackend: (value) => {
-          return this.isUnique || this.responseMessage
-        }
       }
     }),
     methods: {
@@ -63,7 +60,7 @@
           .then(response => {
             console.log(response.data)
             if(response.data.error !== undefined) {
-              alert(response.data.error)
+              this.responseMessages = response.data.error
             } else {
               // suceeded login
               this.$cookie.set('user', response.data.email, 1);
@@ -74,6 +71,9 @@
             this.user = response.user
           });
         }
+      },
+      clearEmailError() {
+        this.responseMessages = []
       }
     }
   }
